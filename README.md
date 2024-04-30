@@ -8,8 +8,14 @@ This is our repo for the ACIT-2911 Agile project. We are creating a task tracker
 
 ---
 
+First, clone in to the repository:
 
-First, ensure that all required dependencies are installed (either system-wide or in a venv - I recommend using venvs, but that might be out of scope)
+```
+git clone https://github.com/ljackson330/task-tracker
+cd task-tracker
+```
+
+Second, ensure that all required dependencies are installed (either system-wide or in a venv - I recommend using venvs, but that might be out of scope)
 
 ```
 pip install flask flask_sqlalchemy
