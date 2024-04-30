@@ -11,15 +11,21 @@ This is our repo for the ACIT-2911 Agile project. We are creating a task tracker
 
 First, ensure that all required dependencies are installed (either system-wide or in a venv - I recommend using venvs, but that might be out of scope)
 
-``pip install flask flask_sqlalchemy``
+```
+pip install flask flask_sqlalchemy
+```
 
 Next, start the Flask server
 
-``python main.py``
+```
+python main.py
+```
 
 In a new tab/window, run `manage.py`. This script seeds the database with (currently) hard-coded User and Task objects from .csv files in `data/`
 
-``python manage.py``
+```
+python manage.py
+```
 
 You will see a file `taskdatabase.db` show up.
 
