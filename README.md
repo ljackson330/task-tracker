@@ -2,7 +2,7 @@
 
 ---
 
-This is our repo for the ACIT-2911 Agile project. We are creating a task tracker app using Flask, SQLAlchemy, and (maybe) more!
+This is our repo for the ACIT-2911 Agile project. We are creating a task tracker app using Flask, SQLAlchemy, and more!
 
 ### How to Run ⚙️
 
