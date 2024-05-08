@@ -21,7 +21,7 @@ Second, ensure that all required dependencies are installed (either system-wide 
 pip install flask flask_sqlalchemy
 ```
 
-Next, start the Flask server
+Next, start the Flask server.
 
 ```
 python main.py
