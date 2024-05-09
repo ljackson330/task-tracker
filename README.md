@@ -2,7 +2,7 @@
 
 ---
 
-This is our repo for the ACIT-2911 Agile project. We are creating a task tracker app using Flask, SQLAlchemy, and (maybe) more!
+This is our repo for the ACIT-2911 Agile project. We are creating a task tracker app using Flask, SQLAlchemy, and more!
 
 ### How to Run ⚙️
 
@@ -21,7 +21,7 @@ Second, ensure that all required dependencies are installed (either system-wide 
 pip install flask flask_sqlalchemy
 ```
 
-Next, start the Flask server
+Next, start the Flask server.
 
 ```
 python main.py
