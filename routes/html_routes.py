@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for
+from db import db
 from models import User, Task
 
 html_routes_bp = Blueprint('html_routes', __name__)
@@ -24,3 +25,13 @@ def tasks():
     """
     tasks = Task.query.all()
     return render_template("tasks.html", tasks=tasks)
+
+@html_routes_bp.route("/tasks/create", methods=["GET","POST"])
+def create_tasks():
+    if request.method == "POST":
+        task_title = request.form["title"]
+        task_description = request.form["description"]
+        db.session.add(Task(name=task_title, desc=task_description, user_id=1))
+        db.session.commit()
+        return redirect(url_for('html_routes.tasks'))
+    return render_template("create.html")
