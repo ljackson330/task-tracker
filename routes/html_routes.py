@@ -26,6 +26,7 @@ def tasks():
     tasks = Task.query.all()
     return render_template("tasks.html", tasks=tasks)
 
+
 @html_routes_bp.route("/tasks/create", methods=["GET","POST"])
 def create_tasks():
     if request.method == "POST":
@@ -35,3 +36,14 @@ def create_tasks():
         db.session.commit()
         return redirect(url_for('html_routes.tasks'))
     return render_template("create.html")
+
+  
+@html_routes_bp.route("/tasks/<int:task_id>/delete", methods=["POST"])
+def delete_task(task_id):
+    """
+    Deletes a task from the database based on the provided task ID
+    """
+    task = Task.query.get_or_404(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for("html_routes.tasks"))

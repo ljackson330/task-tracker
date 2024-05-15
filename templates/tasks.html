@@ -12,6 +12,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>User ID</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +26,11 @@
                 <td>{{ task.start_date }}</td>
                 <td>{{ task.end_date }}</td>
                 <td>{{ task.user_id }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
