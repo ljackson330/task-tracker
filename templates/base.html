@@ -20,9 +20,20 @@
                         <!-- This is how you do links to Flask routes (the url_for) -->
                         <a class="nav-link" href="{{ url_for('html_routes.index') }}">Home</a>
                     </li>
+                    {% if not current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <!-- This is how you do links to Flask routes (the url_for) -->
+                        <a class="nav-link" href="{{ url_for('html_routes.login') }}">Login</a>
+                    </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('html_routes.tasks') }}">Tasks</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('html_routes.logout') }}">Logout</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

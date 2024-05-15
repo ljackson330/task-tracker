@@ -18,7 +18,7 @@ def seed_database():
             # skip header
             next(csv_reader)
             for row in csv_reader:
-                obj = User(last_name=row[0], first_name=row[1])
+                obj = User(username=row[0],password=row[1],last_name=row[2], first_name=row[3])
                 db.session.add(obj)
         db.session.commit()
 
