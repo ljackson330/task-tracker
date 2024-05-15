@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from db import db
 from models import User, Task
 
@@ -26,6 +26,18 @@ def tasks():
     tasks = Task.query.all()
     return render_template("tasks.html", tasks=tasks)
 
+
+@html_routes_bp.route("/tasks/create", methods=["GET","POST"])
+def create_tasks():
+    if request.method == "POST":
+        task_title = request.form["title"]
+        task_description = request.form["description"]
+        db.session.add(Task(name=task_title, desc=task_description, user_id=1))
+        db.session.commit()
+        return redirect(url_for('html_routes.tasks'))
+    return render_template("create.html")
+
+  
 @html_routes_bp.route("/tasks/<int:task_id>/delete", methods=["POST"])
 def delete_task(task_id):
     """
