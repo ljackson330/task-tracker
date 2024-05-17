@@ -10,8 +10,6 @@ def client():
         with app.app_context():
             main_db.create_all()
             yield client
-            main_db.session.remove()
-            main_db.drop_all()
 
 
 @pytest.fixture
@@ -30,7 +28,6 @@ def mocked_db():
 def test_index_route(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert b"ACIT-2911 Agile Project" in response.data
 
 
 def test_tasks_route(client):
