@@ -26,12 +26,6 @@ def tasks():
     tasks = Task.query.all()
     return render_template("tasks.html", tasks=tasks)
 
-  
-@html_routes_bp.route("/login")
-def login():
-    """Renders the home page under /templates/login.html"""
-    return render_template("login.html")
-
 
 @html_routes_bp.route("/tasks/create", methods=["GET", "POST"])
 def create_tasks():
