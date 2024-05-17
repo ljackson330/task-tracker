@@ -12,7 +12,8 @@ Routes allow you to define Flask pages in a logical and organized way
 @html_routes_bp.route("/")
 def index():
     """Renders the home page under /templates/index.html"""
-    return render_template("index.html")
+    tasks = Task.query.all()
+    return render_template("index.html", tasks=tasks)
 
 
 @html_routes_bp.route("/tasks")

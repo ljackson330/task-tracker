@@ -1,9 +1,13 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 <div
   id="body"
   style="
-    height: 95vh;
     background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
+    background-size: cover;
+    background-position: center;
+    height: 95vh;
+    overflow-x: hidden; /* Hide horizontal overflow */
   "
 >
   <div class="container">
@@ -48,11 +52,81 @@
         </div>
       </div>
     </div>
-    <div class="p-5 mb-4 mt-5 bg-body-tertiary rounded-3 h-45">
+    <div class="p-5 mb-4 mt-5 bg-body-tertiary rounded-3" style="max-height: calc(95vh - 68px); overflow-y: auto;">
       <div class="container-fluid py-5 text-center">
-        <h1 class="display-5 fw-bold p-2">Get start with reminder</h1>
-        <p>Intoducing to this convenient app...</p>
-        <button class="btn btn-primary btn-lg">Add a reminder</button>
+        <h1>All Tasks</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>User ID</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in tasks %}
+            <tr>
+              <td>{{ task.id }}</td>
+              <td>{{ task.name }}</td>
+              <td>{{ task.desc }}</td>
+              <td>{{ task.start_date }}</td>
+              <td>{{ task.end_date }}</td>
+              <td>{{ task.user_id }}</td>
+              <td>
+                <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              <td>
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal{{ task.id }}">
+                    Edit
+                  </button>
+                </div>
+
+                <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
+                  <div class="modal fade" id="exampleModal{{ task.id }}" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit a Task</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="title" class="form-label">Task Title</label>
+                            <input type="text" class="form-control" id="title"
+                              placeholder="{{ 'Title' if not task.name else task.name }}"
+                              name="title" value="{{ task.name }}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3"
+                              placeholder="{{ 'Description' if not task.desc else task.desc }}"
+                              name="description">{{ task.desc }}</textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a class="nav-link" href="{{ url_for('html_routes.create_tasks') }}">Create</a>
       </div>
     </div>
   </div>
@@ -67,9 +141,6 @@
     CurrentDate.innerHTML = d.toDateString();
     CurrentTime.innerHTML = d.toLocaleTimeString();
   }, 1000);
-
-  let Body = document.getElementById("body");
-  Body.style.backgroundSize = "cover";
 
   const Refresh = document.getElementById("Refresh");
   Refresh.addEventListener("click", function () {
