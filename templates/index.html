@@ -1,44 +1,79 @@
 {% extends "base.html" %} {% block content %}
-<div class="container">
-  <h1 class="display-3 pt-3">Welcome User!</h1>
-</div>
-<div class="container pb-3 h-auto">
-  <div class="row align-items-md-stretch text-center mt-5 h-50">
-    <div class="col-md-6">
-      <div class="card mb-4 rounded-3 shadow-sm h-100">
-        <div class="card-header py-3">
-          <h4 class="my-2 fw-normal">Current Time</h4>
+<div
+  id="body"
+  style="
+    height: 95vh;
+    background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
+  "
+>
+  <div class="container">
+    <h1 class="display-3 pt-3" style="color: white; font-weight: 600">
+      Welcome User!
+    </h1>
+  </div>
+  <div class="container pb-3 h-auto" style="opacity: 0.9">
+    <div class="row align-items-md-stretch text-center mt-5 h-50">
+      <div class="col-md-6">
+        <div class="card mb-4 rounded-3 shadow-sm h-100">
+          <div class="card-header py-3">
+            <h4 class="my-2" style="font-weight: 600">Current Time</h4>
+          </div>
+          <div class="card-body align-self-center">
+            <h1 class="card-title p-5 pb-3" id="current-time">
+              Resetting Time
+            </h1>
+            <h3 class="p-3" id="current-date">Wed May 15 2024</h3>
+            <button
+              type="button"
+              class="btn btn-lg btn-outline-primary"
+              id="Refresh"
+            >
+              Update Timezone
+            </button>
+          </div>
         </div>
-        <div class="card-body align-self-center">
-          <h1 class="card-title p-5 pb-3">12 : 00 pm</h1>
-          <h3 class="p-3">UTC</h3>
-          <button type="button" class="w-100 btn btn-sm btn-outline-primary">
-            Change Timezone
-          </button>
+      </div>
+      <div class="col-md-6">
+        <div class="card mb-4 rounded-3 shadow-sm h-100">
+          <div class="card-header py-3">
+            <h4 class="my-2" style="font-weight: 600">Upcoming Tasks</h4>
+          </div>
+          <div class="card-body align-self-center">
+            <h1 class="card-title p-5 pb-3">Task Title</h1>
+            <h3 class="p-3">Due Date</h3>
+            <button type="button" class="btn btn-lg btn-outline-primary">
+              Task Details
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="card mb-4 rounded-3 shadow-sm h-100">
-        <div class="card-header py-3">
-          <h4 class="my-2 fw-normal">Upcoming Tasks</h4>
-        </div>
-        <div class="card-body align-self-center">
-          <h1 class="card-title p-5 pb-3">Task Title</h1>
-          <h3 class="p-3">Due Date</h3>
-          <button type="button" class="w-100 btn btn-sm btn-outline-primary">
-            Add an event
-          </button>
-        </div>
+    <div class="p-5 mb-4 mt-5 bg-body-tertiary rounded-3 h-45">
+      <div class="container-fluid py-5 text-center">
+        <h1 class="display-5 fw-bold p-2">Get start with reminder</h1>
+        <p>Intoducing to this convenient app...</p>
+        <button class="btn btn-primary btn-lg">Add a reminder</button>
       </div>
     </div>
   </div>
-  <div class="p-5 mb-4 mt-5 bg-body-tertiary rounded-3 h-45">
-    <div class="container-fluid py-5 text-center">
-      <h1 class="display-5 fw-bold p-2">Get start with reminder</h1>
-      <p>Intoducing to this convenient app...</p>
-      <button class="btn btn-primary btn-lg">Add a reminder</button>
-    </div>
-  </div>
 </div>
+
+<script>
+  let CurrentTime = document.getElementById("current-time");
+  let CurrentDate = document.getElementById("current-date");
+
+  setInterval(() => {
+    let d = new Date();
+    CurrentDate.innerHTML = d.toDateString();
+    CurrentTime.innerHTML = d.toLocaleTimeString();
+  }, 1000);
+
+  let Body = document.getElementById("body");
+  Body.style.backgroundSize = "cover";
+
+  const Refresh = document.getElementById("Refresh");
+  Refresh.addEventListener("click", function () {
+    location.reload();
+  });
+</script>
 {% endblock %}
