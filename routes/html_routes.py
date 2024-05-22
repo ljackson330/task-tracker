@@ -67,7 +67,7 @@ def create_tasks():
     if request.method == "POST":
         task_title = request.form["title"]
         task_description = request.form["description"]
-        db.session.add(Task(name=task_title, desc=task_description, user_id=1))
+        db.session.add(Task(name=task_title, desc=task_description, user_id=current_user.id))
         db.session.commit()
         return redirect(url_for('html_routes.tasks'))
     return render_template("create.html")

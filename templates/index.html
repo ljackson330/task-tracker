@@ -69,60 +69,62 @@
           </thead>
           <tbody>
             {% for task in tasks %}
-            <tr>
-              <td>{{ task.id }}</td>
-              <td>{{ task.name }}</td>
-              <td>{{ task.desc }}</td>
-              <td>{{ task.start_date }}</td>
-              <td>{{ task.end_date }}</td>
-              <td>{{ task.user_id }}</td>
-              <td>
-                <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-              <td>
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal{{ task.id }}">
-                    Edit
-                  </button>
-                </div>
+              {% if task.user_id == current_user.id %}
+                <tr>
+                  <td>{{ task.id }}</td>
+                  <td>{{ task.name }}</td>
+                  <td>{{ task.desc }}</td>
+                  <td>{{ task.start_date }}</td>
+                  <td>{{ task.end_date }}</td>
+                  <td>{{ task.user_id }}</td>
+                  <td>
+                    <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal{{ task.id }}">
+                        Edit
+                      </button>
+                    </div>
 
-                <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
-                  <div class="modal fade" id="exampleModal{{ task.id }}" tabindex="-1"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit a Task</h1>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="mb-3">
-                            <label for="title" class="form-label">Task Title</label>
-                            <input type="text" class="form-control" id="title"
-                              placeholder="{{ 'Title' if not task.name else task.name }}"
-                              name="title" value="{{ task.name }}">
+                    <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
+                      <div class="modal fade" id="exampleModal{{ task.id }}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Edit a Task</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="mb-3">
+                                <label for="title" class="form-label">Task Title</label>
+                                <input type="text" class="form-control" id="title"
+                                  placeholder="{{ 'Title' if not task.name else task.name }}"
+                                  name="title" value="{{ task.name }}">
+                              </div>
+                              <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" rows="3"
+                                  placeholder="{{ 'Description' if not task.desc else task.desc }}"
+                                  name="description">{{ task.desc }}</textarea>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
                           </div>
-                          <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" rows="3"
-                              placeholder="{{ 'Description' if not task.desc else task.desc }}"
-                              name="description">{{ task.desc }}</textarea>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </form>
-              </td>
-            </tr>
+                    </form>
+                  </td>
+                </tr>
+              {% endif %}
             {% endfor %}
           </tbody>
         </table>

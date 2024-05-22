@@ -19,7 +19,7 @@
             {# This is where the tasks variable that is passed from the Flask route is used #}
             {# You can iterate over it like a normal Python list, and access each object's properties as usual #}
             {% for task in tasks %}
-                {% if task.id == current_user.id %}
+                {% if task.user_id == current_user.id %}
                     <tr>
                         <td>{{ task.id }}</td>
                         <td>{{ task.name }}</td>
