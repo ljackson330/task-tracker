@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin 
+
 
 from db import db
 
@@ -9,8 +11,8 @@ Here, we're defining two critical "objects" (things) that we're going to regular
 Doing it this way, we can ensure they are consistently created, accessed, and modified
 """
 
-
-class User(db.Model):
+# UserMixin allows flask_login to use is_auth, is_active get_id properties
+class User(db.Model, UserMixin):
     """"
     id = auto-generated primary key (int)
     first_name = user's real first name. cannot be null (str)
@@ -18,6 +20,8 @@ class User(db.Model):
     tasks = relationship to the Task table, back-populated
     """
     id = Column(Integer, primary_key=True)
+    username = Column(String(20), nullable=False,unique=True)
+    password = Column(String(50), nullable=False)
     last_name = Column(String(80), nullable=False)
     first_name = Column(String(80), nullable=False)
     tasks = relationship("Task", back_populates="user")
