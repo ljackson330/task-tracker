@@ -17,6 +17,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Category</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Start Date</th>
@@ -31,6 +32,7 @@
             {% if task.user_id == current_user.id %}
             <tr>
                 <td>{{ task.id }}</td>
+                <td class="table-primary">{{ categories[task.id] }}</td>
                 <td>{{ task.name }}</td>
                 <td>{{ task.desc }}</td>
                 <td>{{ start_dates[loop.index0] }}</td>

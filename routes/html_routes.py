@@ -82,7 +82,9 @@ def tasks():
         else:
             end_dates.append(None)
             
-    return render_template("tasks.html", tasks=tasks, start_dates=start_dates, end_dates=end_dates)
+        categories = {task.id: task.category.name if task.category else 'No Category' for task in tasks}
+        
+    return render_template("tasks.html", tasks=tasks, start_dates=start_dates, end_dates=end_dates,categories=categories)
   
 @html_routes_bp.route("/tasks/create", methods=["GET", "POST"])
 def create_tasks():
