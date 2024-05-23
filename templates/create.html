@@ -10,6 +10,15 @@
     <title>Create Task</title>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-danger" role="alert">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 56px);">
         <form method="post" style="border: 1px solid lightgray; border-radius: 5px; padding: 15px;">
             <div class="mb-3">
@@ -19,6 +28,11 @@
               <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="due">Due Date</label>
+                <input class="form-control" id="due" type="datetime-local" name="due_date" value="{{ current_time }}" />
+                
             </div>
             <button type="submit" class="btn btn-primary">Create Task</button>
         </form>

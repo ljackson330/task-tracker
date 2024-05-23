@@ -74,8 +74,8 @@
                   <td>{{ task.id }}</td>
                   <td>{{ task.name }}</td>
                   <td>{{ task.desc }}</td>
-                  <td>{{ task.start_date }}</td>
-                  <td>{{ task.end_date }}</td>
+                  <td>{{ start_dates[loop.index0] }}</td>
+                  <td>{{ task.end_date.strftime('%Y/%m/%d %I:%M%p') if task.end_date else '' }}</td>
                   <td>{{ task.user_id }}</td>
                   <td>
                     <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">

@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, abort
+from flask import Blueprint, render_template, request, redirect, url_for, abort, flash
 from db import db
 from models import User, Task
 from validationForm import RegisterForm, LoginForm
 from flask_login import login_required, login_user, current_user, logout_user, logout_user
+from datetime import datetime, timezone
 
 html_routes_bp = Blueprint('html_routes', __name__)
 
@@ -14,7 +15,15 @@ Routes allow you to define Flask pages in a logical and organized way
 def index():
     """Renders the home page under /templates/index.html"""
     tasks = Task.query.all()
-    return render_template("index.html", tasks=tasks)
+    ## Can be refactored as it is redundant but it pretty much turns the datetime into readable format
+    start_dates = []
+    end_dates = []
+    for task in tasks:
+        date_to_string = datetime.fromisoformat(str(task.start_date))
+        start_dates.append(date_to_string.strftime("%Y/%m/%d %I:%M%p"))
+        date_to_string = datetime.fromisoformat(str(task.end_date))
+        end_dates.append(date_to_string.strftime("%Y/%m/%d %I:%M%p"))
+    return render_template("index.html", tasks=tasks, start_dates=start_dates, end_dates=end_dates)
 
 @html_routes_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -56,8 +65,21 @@ def dashboard():
 def tasks():
     """Renders the tasks page."""
     tasks = Task.query.all()
-    return render_template("tasks.html", tasks=tasks)
-
+    ## Can be refactored as it is redundant 
+    start_dates = []
+    end_dates = []
+    for task in tasks:
+        date_to_string = datetime.fromisoformat(str(task.start_date))
+        start_dates.append(date_to_string.strftime("%Y/%m/%d %I:%M%p"))
+        
+        if task.end_date is not None:
+            date_to_string = datetime.fromisoformat(str(task.end_date))
+            end_dates.append(date_to_string.strftime("%Y/%m/%d %I:%M%p"))
+            
+        else:
+            end_dates.append(None)
+            
+    return render_template("tasks.html", tasks=tasks, start_dates=start_dates, end_dates=end_dates)
   
 @html_routes_bp.route("/tasks/create", methods=["GET", "POST"])
 def create_tasks():
@@ -67,10 +89,28 @@ def create_tasks():
     if request.method == "POST":
         task_title = request.form["title"]
         task_description = request.form["description"]
-        db.session.add(Task(name=task_title, desc=task_description, user_id=current_user.id))
+        task_due = request.form["due_date"]
+        current_time = datetime.now()
+        
+        ## Takes the due date from 2024/05/11 04:30AM format and converts it into the database format 
+        if task_due: 
+            parsed_datetime = datetime.strptime(task_due, "%Y-%m-%dT%H:%M")
+            if parsed_datetime < datetime.now():
+                flash("Due date cannot be before the current date", "error")
+                return redirect(url_for("html_routes.create_tasks"))
+            
+            output_datetime_str = parsed_datetime.strftime("%Y-%m-%d %H:%M:%S.%f")
+            output_datetime_str = datetime.fromisoformat(output_datetime_str[:-1])
+        ## If task does not have a due date returns none to database
+        else:
+            output_datetime_str = None
+            
+        db.session.add(Task(name=task_title, desc=task_description, user_id=current_user.id, start_date=current_time, end_date=output_datetime_str))
         db.session.commit()
         return redirect(url_for('html_routes.tasks'))
-    return render_template("create.html")
+    current_time = datetime.now()
+    current_time = datetime.fromisoformat(str(current_time)).strftime("%Y/%m/%d %I:%M%p")
+    return render_template("create.html",current_time=current_time)
 
 
 @html_routes_bp.route("/tasks/<int:task_id>/delete", methods=["POST"])
@@ -97,8 +137,20 @@ def edit_task(task_id):
             abort(404)
         task_description = request.form["description"]
         task_title = request.form["title"]
+        task_due = request.form["due_date"]
         task.name = task_title
         task.desc = task_description
+        if task_due: 
+            parsed_datetime = datetime.strptime(task_due, "%Y-%m-%dT%H:%M")
+            if parsed_datetime < datetime.now():
+                flash("Due date cannot be before the current date", "error")
+                return redirect(url_for("html_routes.tasks"))
+            
+            output_datetime_str = parsed_datetime.strftime("%Y-%m-%d %H:%M:%S.%f")
+            output_datetime_str = datetime.fromisoformat(output_datetime_str[:-1])
+            task.end_date = output_datetime_str
+        else:
+            task.end_date = None  # If no due date provided, set it to None
         db.session.commit()
         return redirect(url_for("html_routes.tasks"))
     return redirect(url_for("html_routes.tasks"))

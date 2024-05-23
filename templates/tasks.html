@@ -4,6 +4,15 @@
 
 <div class="container">
     <h1>All Tasks</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
     <table class="table">
         <thead>
             <tr>
@@ -19,26 +28,26 @@
             {# This is where the tasks variable that is passed from the Flask route is used #}
             {# You can iterate over it like a normal Python list, and access each object's properties as usual #}
             {% for task in tasks %}
-                {% if task.user_id == current_user.id %}
-                    <tr>
-                        <td>{{ task.id }}</td>
-                        <td>{{ task.name }}</td>
-                        <td>{{ task.desc }}</td>
-                        <td>{{ task.start_date }}</td>
-                        <td>{{ task.end_date }}</td>
-                        <td>{{ task.user_id }}</td>
-                        <td>
-                            <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                       <td>
-                          <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                              data-bs-target="#exampleModal{{ task.id }}">
-                              Edit
-                            </button>
-                          </div>
-                          <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
+            {% if task.user_id == current_user.id %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.desc }}</td>
+                <td>{{ start_dates[loop.index0] }}</td>
+                <td>{{ task.end_date.strftime('%Y/%m/%d %I:%M%p') if task.end_date else '' }}</td>
+                <td>{{ task.user_id }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal{{ task.id }}">
+                            Edit
+                        </button>
+                    </div>
+                    <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
                         <div class="modal fade" id="exampleModal{{ task.id }}" tabindex="-1"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -52,14 +61,20 @@
                                         <div class="mb-3">
                                             <label for="title" class="form-label">Task Title</label>
                                             <input type="text" class="form-control" id="title"
-                                                placeholder="{{ 'Title' if not task.name else task.name }}"
-                                                name="title" value="{{ task.name }}">
+                                                placeholder="{{ 'Title' if not task.name else task.name }}" name="title"
+                                                value="{{ task.name }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="description" class="form-label">Description</label>
                                             <textarea class="form-control" id="description" rows="3"
                                                 placeholder="{{ 'Description' if not task.desc else task.desc }}"
                                                 name="description">{{ task.desc }}</textarea>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="due_date">Due Date</label>
+                                            <input class="form-control" id="party" type="datetime-local" name="due_date"
+                                                value="{{ task.end_date.strftime('%Y-%m-%dT%H:%M') if task.end_date else '' }}" />
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -71,9 +86,9 @@
                             </div>
                         </div>
                     </form>
-                    </tr>
-                </td>
-                {% endif %}
+            </tr>
+            </td>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>

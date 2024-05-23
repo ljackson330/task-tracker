@@ -2,7 +2,7 @@ from db import db
 from models import Task, User
 from main import flaskapp as app
 import csv
-
+from datetime import datetime
 
 def seed_database():
     """
@@ -27,7 +27,7 @@ def seed_database():
             # skip header
             next(csv_reader)
             for row in csv_reader:
-                obj = Task(name=row[0], desc=row[1], user_id=row[4])
+                obj = Task(name=row[0], desc=row[1], user_id=row[4], start_date=datetime.now())
                 db.session.add(obj)
         db.session.commit()
 
