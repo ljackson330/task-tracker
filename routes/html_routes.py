@@ -15,15 +15,18 @@ Routes allow you to define Flask pages in a logical and organized way
 def index():
     """Renders the home page under /templates/index.html"""
     tasks = Task.query.all()
-    ## Can be refactored as it is redundant but it pretty much turns the datetime into readable format
     start_dates = []
     end_dates = []
     for task in tasks:
         date_to_string = datetime.fromisoformat(str(task.start_date))
         start_dates.append(date_to_string.strftime("%Y/%m/%d %I:%M%p"))
-        date_to_string = datetime.fromisoformat(str(task.end_date))
-        end_dates.append(date_to_string.strftime("%Y/%m/%d %I:%M%p"))
+        if task.end_date is not None: 
+            date_to_string = datetime.fromisoformat(str(task.end_date))
+            end_dates.append(date_to_string.strftime("%Y/%m/%d %I:%M%p"))
+        else:
+            end_dates.append(None)
     return render_template("index.html", tasks=tasks, start_dates=start_dates, end_dates=end_dates)
+
 
 @html_routes_bp.route("/login", methods=["GET", "POST"])
 def login():
