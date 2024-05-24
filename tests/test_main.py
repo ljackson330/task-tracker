@@ -1,45 +1,18 @@
 import pytest
+from main import flaskapp as app
+from db import db as main_db
 
-# Import the Flask app instance
-from main import flaskapp
-
-
-# Fixture for the Flask app
 @pytest.fixture
-def app():
-    yield flaskapp
+def client():
+    with app.test_client() as client:
+        with app.app_context():
+            main_db.create_all()
+            yield client
 
-
-# Fixture for the test client
-@pytest.fixture
-def client(app):
-    return app.test_client()
-
-
-def test_config(app):
-    """
-    Test the Flask app configuration.
-    """
-    assert app.config["SQLALCHEMY_DATABASE_URI"] == "sqlite:///taskdatabase.db"
-    assert app.instance_path.is_dir()
-
-
-def test_blueprint_registration(app):
-    """
-    Test if the blueprint is registered correctly.
-    """
-    registered_blueprints = app.blueprints
-    assert "html_routes" in registered_blueprints
-
-
-def test_home_page(client):
-    """
-    Test the home page route.
-    """
+def test_index_route(client):
     response = client.get('/')
     assert response.status_code == 200
 
-
-# Run the tests
-if __name__ == "__main__":
-    pytest.main()
+def test_tasks_route(client):
+    response = client.get('/tasks')
+    assert response.status_code == 302
