@@ -1,24 +1,55 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-</head>
-<body>
-    <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 56px); flex-direction: column;">
-        <form style="width: 500px;">
-            {{ form.hidden_tag() }}
-            {{ form.username }}
-            {{ form.password }}
-            {{ form.submit }}
+  </head>
+  <body
+    style="
+      background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
+      background-size: cover;
+      background-position: center;
+      height: 95vh;
+      overflow-x: hidden; /* Hide horizontal overflow */
+      color: white;
+    "
+  >
+    <div
+      style="
+        width: 500px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        margin: 250px auto auto;
+        align-items: center;
+      "
+    >
+      <h1 style="margin-bottom: 30px; font-size: 36pt">Sign Up</h1>
+      <div
+        class="d-flex justify-content-center align-items-center"
+        style="flex-direction: column"
+      >
+        <form
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            font-size: 15pt;
+          "
+        >
+          {{ form.hidden_tag() }} {{ form.username(style="width: 300px; height:
+          40px; border-radius: 15px; border: grey 1px solid; background-color:
+          rgba(255, 255, 255, 0.6); padding: 20px") }} {{ form.password
+          (style="width: 300px; height: 40px; border-radius: 15px; border: grey
+          1px solid; background-color: rgba(255, 255, 255, 0.6); padding:
+          20px")}} {{ form.submit (style="height: 40px; border-radius: 15px;
+          border: none")}}
         </form>
+      </div>
     </div>
-    
-</body>
+  </body>
 </html>
 
 {% endblock %}

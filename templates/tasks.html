@@ -1,95 +1,169 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div
+  style="
+    background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
+    background-size: cover;
+    background-position: center;
+    height: 95vh;
+    overflow-x: hidden; /* Hide horizontal overflow */
+    color: white;
+  "
+>
+  <div class="container">
+    <h1 style="margin: 50px auto 20px auto">All Tasks</h1>
 
-{% block content %}
+    <div
+      class="task-list"
+      style="display: flex; flex-direction: row; max-width: 1260px"
+    >
+      {# This is where the tasks variable that is passed from the Flask route is
+      used #} {# You can iterate over it like a normal Python list, and access
+      each object's properties as usual #} {% for task in tasks %} {% if
+      task.user_id == current_user.id %}
+      <div
+        class="task"
+        style="
+          border: none;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 15px;
+          width: 400px;
+          max-height: 500px;
+          padding: 30px;
+          margin-right: 30px;
+          font-size: 18px;
+        "
+      >
+        <div class="task-info" style="">
+          <p><strong>ID:</strong> {{ task.id }}</p>
+          <p><strong>Name:</strong> {{ task.name }}</p>
+          <p><strong>Description:</strong> {{ task.desc }}</p>
+          <p><strong>Start Date:</strong> {{ task.start_date }}</p>
+          <p><strong>End Date:</strong> {{ task.end_date }}</p>
+          <p><strong>User ID:</strong> {{ task.user_id }}</p>
+        </div>
+        <div class="task-actions">
+          <form
+            method="post"
+            action="{{ url_for('html_routes.delete_task', task_id=task.id) }}"
+          >
+            <button type="submit" class="btn btn-danger" style="width: 80px">
+              Delete
+            </button>
+          </form>
+          <div class="btn-group" role="group">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal{{ task.id }}"
+              style="margin-top: 10px; width: 80px"
+            >
+              Edit
+            </button>
+          </div>
+          <form
+            method="post"
+            action="{{ url_for('html_routes.edit_task', task_id=task.id) }}"
+          >
+            <div
+              class="modal fade"
+              id="exampleModal{{ task.id }}"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      Edit a Task
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="title" class="form-label">Task Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="{{ 'Title' if not task.name else task.name }}"
+                        name="title"
+                        value="{{ task.name }}"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="description" class="form-label"
+                        >Description</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="description"
+                        rows="3"
+                        placeholder="{{ 'Description' if not task.desc else task.desc }}"
+                        name="description"
+                      >
+{{ task.desc }}</textarea
+                      >
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Save changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
 
-<div class="container">
-    <h1>All Tasks</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>User ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {# This is where the tasks variable that is passed from the Flask route is used #}
-            {# You can iterate over it like a normal Python list, and access each object's properties as usual #}
-            {% for task in tasks %}
-                {% if task.user_id == current_user.id %}
-                    <tr>
-                        <td>{{ task.id }}</td>
-                        <td>{{ task.name }}</td>
-                        <td>{{ task.desc }}</td>
-                        <td>{{ task.start_date }}</td>
-                        <td>{{ task.end_date }}</td>
-                        <td>{{ task.user_id }}</td>
-                        <td>
-                            <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                       <td>
-                          <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                              data-bs-target="#exampleModal{{ task.id }}">
-                              Edit
-                            </button>
-                          </div>
-                          <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
-                        <div class="modal fade" id="exampleModal{{ task.id }}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit a Task</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label for="title" class="form-label">Task Title</label>
-                                            <input type="text" class="form-control" id="title"
-                                                placeholder="{{ 'Title' if not task.name else task.name }}"
-                                                name="title" value="{{ task.name }}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="description" class="form-label">Description</label>
-                                            <textarea class="form-control" id="description" rows="3"
-                                                placeholder="{{ 'Description' if not task.desc else task.desc }}"
-                                                name="description">{{ task.desc }}</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    </tr>
-                </td>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    <a class="nav-link" href="{{ url_for('html_routes.create_tasks') }}">Create</a>
+    <a
+      class="nav-link"
+      href="{{ url_for('html_routes.create_tasks') }}"
+      style="
+        font-size: 20px;
+        border: 2px solid white;
+        width: 100px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 30px;
+      "
+    >
+      Create</a
+    >
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        const titleInput = modal.querySelector('#title');
-        modal.addEventListener('shown.bs.modal', () => {
-            titleInput.focus();
-        });
+  const modals = document.querySelectorAll(".modal");
+  modals.forEach((modal) => {
+    const titleInput = modal.querySelector("#title");
+    modal.addEventListener("shown.bs.modal", () => {
+      titleInput.focus();
     });
+  });
 </script>
 
 {% endblock %}
