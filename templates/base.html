@@ -14,39 +14,46 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
+  <body   style="
+  background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
+  background-size: cover;
+  background-position: center;
+  height: 95vh;
+  overflow-x: hidden; /* Hide horizontal overflow */
+  color: white;
+">
     <!-- With Bootstrap imported, we can just throw random classes at whatever tags and it'll style them automagically -->
     <!-- Hit up the docs I linked for more info -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <!-- This is how you do links to Flask routes (the url_for) -->
-                        <a class="nav-link" href="{{ url_for('html_routes.index') }}">Home</a>
-                    </li>
-                    {% if not current_user.is_authenticated %}
-                    <li class="nav-item">
-                        <!-- This is how you do links to Flask routes (the url_for) -->
-                        <a class="nav-link" href="{{ url_for('html_routes.login') }}">Login</a>
-                    </li>
-                    {% endif %}
-                    {% if current_user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('html_routes.tasks') }}">Tasks</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('html_routes.logout') }}">Logout</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
+      <div class="container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                      <!-- This is how you do links to Flask routes (the url_for) -->
+                      <a class="nav-link" href="{{ url_for('html_routes.index') }}">Home</a>
+                  </li>
+                  {% if not current_user.is_authenticated %}
+                  <li class="nav-item">
+                      <!-- This is how you do links to Flask routes (the url_for) -->
+                      <a class="nav-link" href="{{ url_for('html_routes.login') }}">Login</a>
+                  </li>
+                  {% endif %}
+                  {% if current_user.is_authenticated %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('html_routes.tasks') }}">Tasks</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('html_routes.logout') }}">Logout</a>
+                  </li>
+                  {% endif %}
+              </ul>
+          </div>
       </div>
-    </nav>
+    </div>
+  </nav>
     {% block content %} {% endblock %}
   </body>
 </html>

@@ -1,20 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <div
-  id="body"
-  style="
-    background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
-    background-size: cover;
-    background-position: center;
-    height: 95vh;
-    color: white;
-    overflow-x: hidden; /* Hide horizontal overflow */
-  "
+  class="d-flex justify-content-center align-items-center"
+  style="height: calc(100vh - 56px)"
 >
-  <div
-    class="d-flex justify-content-center align-items-center"
-    style="height: calc(100vh - 56px)"
-  >
-    <h1 class="display-1">{{ current_user.first_name }}'s Dashboard</h1>
-  </div>
+  <h1 class="display-1">{{ current_user.first_name }}'s Dashboard</h1>
 </div>
 {% endblock %}

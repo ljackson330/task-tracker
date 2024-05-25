@@ -1,15 +1,5 @@
-{% extends "base.html" %}
-{% block content %}
-<div
-  id="body"
-  style="
-    background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
-    background-size: cover;
-    background-position: center;
-    height: 95vh;
-    overflow-x: hidden; /* Hide horizontal overflow */
-  "
->
+{% extends "base.html" %} {% block content %}
+<div>
   <div class="container">
     <h1 class="display-3 pt-3" style="color: white; font-weight: 600">
       Welcome User!
@@ -52,8 +42,11 @@
         </div>
       </div>
     </div>
-    <div class="p-5 mb-4 mt-5 bg-body-tertiary rounded-3" style="max-height: calc(95vh - 68px); overflow-y: auto;">
-      <div class="container-fluid py-5 text-center">
+    <div
+      class="p-5 mb-4 mt-5 bg-body-tertiary rounded-3"
+      style="max-height: calc(95vh - 68px); overflow-y: auto"
+    >
+      <div class="container-fluid py-5 text-center" style="color: black">
         <h1>All Tasks</h1>
         <table class="table">
           <thead>
@@ -65,70 +58,116 @@
               <th>End Date</th>
               <th>User ID</th>
               <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {% for task in tasks %}
-              {% if task.user_id == current_user.id %}
-                <tr>
-                  <td>{{ task.id }}</td>
-                  <td>{{ task.name }}</td>
-                  <td>{{ task.desc }}</td>
-                  <td>{{ task.start_date }}</td>
-                  <td>{{ task.end_date }}</td>
-                  <td>{{ task.user_id }}</td>
-                  <td>
-                    <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal{{ task.id }}">
-                        Edit
-                      </button>
-                    </div>
+            {% for task in tasks %} {% if task.user_id == current_user.id %}
+            <tr>
+              <td>{{ task.id }}</td>
+              <td>{{ task.name }}</td>
+              <td>{{ task.desc }}</td>
+              <td>{{ task.start_date }}</td>
+              <td>{{ task.end_date }}</td>
+              <td>{{ task.user_id }}</td>
+              <td>
+                <form
+                  method="post"
+                  action="{{ url_for('html_routes.delete_task', task_id=task.id) }}"
+                >
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
 
-                    <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
-                      <div class="modal fade" id="exampleModal{{ task.id }}" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="exampleModalLabel">Edit a Task</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="mb-3">
-                                <label for="title" class="form-label">Task Title</label>
-                                <input type="text" class="form-control" id="title"
-                                  placeholder="{{ 'Title' if not task.name else task.name }}"
-                                  name="title" value="{{ task.name }}">
-                              </div>
-                              <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" rows="3"
-                                  placeholder="{{ 'Description' if not task.desc else task.desc }}"
-                                  name="description">{{ task.desc }}</textarea>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
-                              <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
+              <td>
+                <div class="btn-group" role="group">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal{{ task.id }}"
+                  >
+                    Edit
+                  </button>
+                </div>
+
+                <form
+                  method="post"
+                  action="{{ url_for('html_routes.edit_task', task_id=task.id) }}"
+                >
+                  <div
+                    class="modal fade"
+                    id="exampleModal{{ task.id }}"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Edit a Task
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="title" class="form-label"
+                              >Task Title</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="title"
+                              placeholder="{{ 'Title' if not task.name else task.name }}"
+                              name="title"
+                              value="{{ task.name }}"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="description" class="form-label"
+                              >Description</label
+                            >
+                            <textarea
+                              class="form-control"
+                              id="description"
+                              rows="3"
+                              placeholder="{{ 'Description' if not task.desc else task.desc }}"
+                              name="description"
+                            >
+{{ task.desc }}</textarea
+                            >
                           </div>
                         </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                          <button type="submit" class="btn btn-primary">
+                            Save changes
+                          </button>
+                        </div>
                       </div>
-                    </form>
-                  </td>
-                </tr>
-              {% endif %}
-            {% endfor %}
+                    </div>
+                  </div>
+                </form>
+              </td>
+            </tr>
+            {% endif %} {% endfor %}
           </tbody>
         </table>
-        <a class="nav-link" href="{{ url_for('html_routes.create_tasks') }}">Create</a>
+        <a class="nav-link" href="{{ url_for('html_routes.create_tasks') }}"
+          >Create</a
+        >
       </div>
     </div>
   </div>
