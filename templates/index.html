@@ -15,20 +15,20 @@
     <div id="left-btm">
       <div
         class="task-list"
-        style="display: flex; flex-direction: row; max-width: 1296px"
+        style="display: flex; flex-direction: row; flex-wrap: wrap;"
       >
         {# This is where the tasks variable that is passed from the Flask route
         is used #} {# You can iterate over it like a normal Python list, and
         access each object's properties as usual #} {% for task in tasks %} {%
         if task.user_id == current_user.id %}
-        <a href="{{ url_for('html_routes.tasks') }}" style="text-decoration: none; color: inherit; margin-right: 40px;">
+        <a href="{{ url_for('html_routes.tasks') }}" style="text-decoration: none; color: inherit; margin-right: 20px; margin-bottom: 20px;">
           <div
           class="task shadow"
           style="
             border: none;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
-            width: 400px;
+            width: 360px;
             max-height: 500px;
             padding: 30px;
             font-size: 18px;
@@ -53,23 +53,18 @@
     class="text-center shadow"
     style="
       width: 400px;
-      height: 600px;
+      height: fit-content;
       border: none;
       background: rgba(255, 255, 255, 0.15);
       padding: 30px;
     "
   >
-  {# Ensuring task is defined #}
-  {% with task=tasks|first %}
-    {% if task.id == 1 %}
     <h1 style="margin-bottom: 60px; color: rgb(98, 88, 124)">Upcoming Task</h1>
-    <h2 style="margin-bottom: 50px; font-size: 40px;">{{ task.name }}</h2>
-    <p style="font-size: 24px; margin-bottom: 50px;">{{ task.desc }}</p>
-    <h3 style="margin-bottom: 50px">Due Date {{ task.end_date }}</h2>
+    <h2 style="margin-bottom: 50px; font-size: 40px;">Task Name</h2>
+    <p style="font-size: 24px; margin-bottom: 50px;">Task Content</p>
+    <h3 style="margin-bottom: 50px">Due Date</h2>
     <a class="shadow" href="{{ url_for('html_routes.tasks') }}" 
     style="text-decoration: none; color: white; font-size: 20px; border: none; background-color: rgb(98, 88, 124); padding: 20px; display: block;">Check More Details</a>
-    {% endif %}
-    {% endwith %}
   </div>
 </div>
 
