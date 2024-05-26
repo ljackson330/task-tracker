@@ -1,25 +1,48 @@
 {% extends "base.html" %} {% block content %}
 <div class="container">
-  <h1 style="margin: 50px auto 20px auto">All Tasks</h1>
+  <div
+    class="d-flex flex-row align-items-center justify-content-between"
+    style="margin: 50px auto 30px auto"
+  >
+    <h1 class="mb-0">{{ current_user.first_name }}'s Tasks</h1>
+    <a
+      class="nav-link shadow"
+      href="{{ url_for('html_routes.create_tasks') }}"
+      style="
+        background: none;
+        border: 2px solid white;
+        font-size: 20px;
+        width: 150px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        padding: 24px;
+      "
+    >
+      Create</a
+    >
+  </div>
 
   <div
     class="task-list"
-    style="display: flex; flex-direction: row; max-width: 1260px"
+    style="display: flex; flex-direction: row; max-width: 1296px"
   >
     {# This is where the tasks variable that is passed from the Flask route is
     used #} {# You can iterate over it like a normal Python list, and access
     each object's properties as usual #} {% for task in tasks %} {% if
     task.user_id == current_user.id %}
     <div
-      class="task"
+      class="task shadow"
       style="
         border: none;
         background: rgba(255, 255, 255, 0.15);
         border-radius: 15px;
-        width: 380px;
+        width: 420px;
         max-height: 500px;
         padding: 30px;
-        margin-right: 30px;
+        margin-right: 40px;
         font-size: 18px;
       "
     >
@@ -61,58 +84,69 @@
             tabindex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
+            style="margin-top: 180px; color: black"
           >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">
-                    Edit a Task
-                  </h1>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="mb-3">
-                    <label for="title" class="form-label">Task Title</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="title"
-                      placeholder="{{ 'Title' if not task.name else task.name }}"
-                      name="title"
-                      value="{{ task.name }}"
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="description" class="form-label"
-                      >Description</label
-                    >
-                    <textarea
-                      class="form-control"
-                      id="description"
-                      rows="3"
-                      placeholder="{{ 'Description' if not task.desc else task.desc }}"
-                      name="description"
-                    >
-{{ task.desc }}</textarea
-                    >
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
+            <div class="modal-dialog modal-lg">
+              <div
+                class="modal-content d-flex flex-row shadow"
+                style="height: 500px; width: 750px; border-radius: 0"
+              >
+                <img
+                  style="width: 350px; height: 500px"
+                  src="https://images.pexels.com/photos/4483046/pexels-photo-4483046.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  alt=""
+                />
+                <div style="width: 400px">
+                  <div
+                    class="modal-header"
+                    style="padding: 20px; margin-bottom: 20px"
                   >
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Save changes
-                  </button>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      Edit Task {{ task.id }}
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body" style="margin-bottom: 25px">
+                    <div class="mb-4">
+                      <label for="title" class="form-label">Task Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="{{ 'Title' if not task.name else task.name }}"
+                        name="title"
+                        value="{{ task.name }}"
+                      />
+                    </div>
+                    <div class="mb-1">
+                      <label for="description" class="form-label"
+                        >Description</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="description"
+                        rows="5"
+                        placeholder="{{ 'Description' if not task.desc else task.desc }}"
+                        name="description"
+                      >
+  {{ task.desc }}</textarea
+                      >
+                    </div>
+                  </div>
+                  <div class="modal-footer" style="padding: 20px">
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      style="display: block; width: 100%"
+                    >
+                      Save changes
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -122,25 +156,6 @@
     </div>
     {% endif %} {% endfor %}
   </div>
-
-  <a
-    class="nav-link"
-    href="{{ url_for('html_routes.create_tasks') }}"
-    style="
-      font-size: 20px;
-      border: 2px solid white;
-      width: 100px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 10px;
-      padding: 20px;
-      margin-top: 30px;
-    "
-  >
-    Create</a
-  >
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

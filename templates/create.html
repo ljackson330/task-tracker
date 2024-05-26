@@ -1,29 +1,74 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Task</title>
-</head>
-<body>
-    <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 56px);">
-        <form method="post" style="border: 1px solid lightgray; border-radius: 5px; padding: 15px;">
-            <div class="mb-3">
-                <label for="title" class="form-label">Task Title</label>
-                <input type="text" class="form-control" id="title" placeholder="Task Title" name="title">
-              </div>
-              <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" rows="3" name="description"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Create Task</button>
+  </head>
+  <body>
+    <div
+      class="container"
+      style="
+        border: none;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 40px;
+        color: rgb(98, 88, 124);
+        height: auto;
+        width: 600px;
+      "
+    >
+      <h1 style="margin-bottom: 40px">
+        {{ current_user.first_name }}'s new task
+      </h1>
+      <div
+        class="d-block flex-col"
+        style="font-size: 22px; font-weight: 600; width: 540px"
+      >
+        <form method="post">
+          <div class="mb-4 d-flex flex-row align-items-center">
+            <label
+              for="title"
+              class="form-label mb-0"
+              style="margin-right: 12px"
+              >Task</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="Task Title"
+              name="title"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="description" class="form-label mb-1">Description</label>
+            <textarea
+              class="form-control"
+              id="description"
+              rows="5"
+              name="description"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="
+              background-color: rgb(98, 88, 124);
+              border: none;
+              width: 540px;
+              font-size: 20px;
+            "
+          >
+            Create Task
+          </button>
         </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>
 
 {% endblock %}
