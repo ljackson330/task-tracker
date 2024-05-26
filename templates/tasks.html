@@ -27,7 +27,12 @@
 
   <div
     class="task-list"
-    style="display: flex; flex-direction: row; max-width: 1296px"
+    style="
+      display: flex;
+      flex-direction: row;
+      max-width: 1296px;
+      flex-wrap: wrap;
+    "
   >
     {# This is where the tasks variable that is passed from the Flask route is
     used #} {# You can iterate over it like a normal Python list, and access
@@ -39,11 +44,12 @@
         border: none;
         background: rgba(255, 255, 255, 0.15);
         border-radius: 15px;
-        width: 420px;
+        width: 400px;
         min-height: 300px;
         max-height: fit-content;
         padding: 30px;
-        margin-right: 40px;
+        margin-right: 30px;
+        margin-bottom: 30px;
         font-size: 18px;
       "
     >
