@@ -3,7 +3,7 @@
   class="container d-flex flex-row justify-content-between"
   style="margin-top: 100px"
 >
-  <div id="left" style="width: 780px">
+  <div id="left" style="width: 800px">
     <div id="left-up" style="margin-bottom: 45px">
       <h1 style="font-size: 80px; margin-bottom: 50px">
         Welcome back {{ current_user.first_name }}!
@@ -21,7 +21,7 @@
         is used #} {# You can iterate over it like a normal Python list, and
         access each object's properties as usual #} {% for task in tasks %} {%
         if task.user_id == current_user.id %}
-        <a href="{{ url_for('html_routes.tasks') }}" style="text-decoration: none; color: inherit; margin-right: 20px; margin-bottom: 20px;">
+        <a href="{{ url_for('html_routes.tasks') }}" style="text-decoration: none; color: inherit; margin-right: 30px; margin-bottom: 20px;">
           <div
           class="task shadow"
           style="
