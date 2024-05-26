@@ -52,7 +52,10 @@
         <p><strong>Description:</strong> {{ task.desc }}</p>
         <p><strong>Start Date:</strong> {{ task.start_date }}</p>
         <p><strong>End Date:</strong> {{ task.end_date }}</p>
-        <p><strong>User ID:</strong> {{ task.user_id }}</p>
+        <p>
+          <strong>Creator:</strong> {{ current_user.first_name }} {{
+          current_user.last_name }}
+        </p>
       </div>
       <div class="task-actions" style="display: flex">
         <form
