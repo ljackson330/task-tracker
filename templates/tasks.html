@@ -140,15 +140,24 @@
                       <textarea
                         class="form-control"
                         id="description"
-                        rows="5"
+                        rows="3"
                         placeholder="{{ 'Description' if not task.desc else task.desc }}"
                         name="description"
                       >
   {{ task.desc }}</textarea
                       >
                     </div>
+                    <div>
+                      <label for="due_date" class="form-label">Due Date</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="due_date"
+                        value="{% if task.end_date %}{{ task.end_date.strftime('%Y-%m-%dT%H:%M') }}{% endif %}"
+                      />
+                    </div>
                   </div>
-                  <div class="modal-footer" style="padding: 20px">
+                  <div class="modal-footer" style="padding: 0px">
                     <button
                       type="submit"
                       class="btn btn-primary"

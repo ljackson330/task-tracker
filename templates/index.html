@@ -49,25 +49,28 @@
     </div>
   </div>
   <div
-    id="right"
-    class="text-center shadow"
-    style="
-      width: 400px;
-      height: fit-content;
-      border: none;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 30px;
-    "
-  >
-    <h1 style="margin-bottom: 60px; color: rgb(98, 88, 124)">Upcoming Task</h1>
-    <h2 style="margin-bottom: 50px; font-size: 40px;">Task Name</h2>
-    <p style="font-size: 24px; margin-bottom: 50px;">Task Content</p>
-    <h3 style="margin-bottom: 50px">Due Date</h2>
-    <a class="shadow" href="{{ url_for('html_routes.tasks') }}" 
-    style="text-decoration: none; color: white; font-size: 20px; border: none; background-color: rgb(98, 88, 124); padding: 20px; display: block;">Check More Details</a>
-  </div>
-</div>
+        id="right"
+        class="text-center shadow"
+        style="
+          width: 400px;
+          height: fit-content;
+          border: none;
+          background: rgba(255, 255, 255, 0.15);
+          padding: 30px;
+        "
+      >
+        <h1 style="margin-bottom: 60px; color: rgb(98, 88, 124)">Upcoming Task</h1>
 
+        {% if upcoming_task %}
+            <h2 style="margin-bottom: 50px; font-size: 40px;">{{ upcoming_task.name }}</h2>
+            <p style="font-size: 24px; margin-bottom: 50px;">{{ upcoming_task.content }}</p>
+            <h3 style="margin-bottom: 50px">Due Date: {{ upcoming_task.end_date.strftime('%Y-%m-%d %H:%M') }}</h3>
+            <a class="shadow" href="{{ url_for('html_routes.tasks') }}"
+            style="text-decoration: none; color: white; font-size: 20px; border: none; background-color: rgb(98, 88, 124); padding: 20px; display: block;">Check More Details</a>
+        {% else %}
+            <p style="font-size: 24px; margin-bottom: 50px;">No upcoming tasks found.</p>
+        {% endif %}
+      </div>
 <script>
   let CurrentTime = document.getElementById("current-time");
   let CurrentDate = document.getElementById("current-date");
