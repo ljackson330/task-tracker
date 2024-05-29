@@ -1,136 +1,70 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div
-  id="body"
-  style="
-    background-image: url(https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
-    background-size: cover;
-    background-position: center;
-    height: 95vh;
-    overflow-x: hidden; /* Hide horizontal overflow */
-  "
+  class="container d-flex flex-row justify-content-between"
+  style="margin-top: 100px"
 >
-  <div class="container">
-    <h1 class="display-3 pt-3" style="color: white; font-weight: 600">
-      Welcome User!
-    </h1>
-  </div>
-  <div class="container pb-3 h-auto" style="opacity: 0.9">
-    <div class="row align-items-md-stretch text-center mt-5 h-50">
-      <div class="col-md-6">
-        <div class="card mb-4 rounded-3 shadow-sm h-100">
-          <div class="card-header py-3">
-            <h4 class="my-2" style="font-weight: 600">Current Time</h4>
-          </div>
-          <div class="card-body align-self-center">
-            <h1 class="card-title p-5 pb-3" id="current-time">
-              Resetting Time
-            </h1>
-            <h3 class="p-3" id="current-date">Wed May 15 2024</h3>
-            <button
-              type="button"
-              class="btn btn-lg btn-outline-primary"
-              id="Refresh"
-            >
-              Update Timezone
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card mb-4 rounded-3 shadow-sm h-100">
-          <div class="card-header py-3">
-            <h4 class="my-2" style="font-weight: 600">Upcoming Tasks</h4>
-          </div>
-          <div class="card-body align-self-center">
-            <h1 class="card-title p-5 pb-3">Task Title</h1>
-            <h3 class="p-3">Due Date</h3>
-            <button type="button" class="btn btn-lg btn-outline-primary">
-              Task Details
-            </button>
-          </div>
-        </div>
-      </div>
+  <div id="left" style="width: 800px">
+    <div id="left-up" style="margin-bottom: 45px">
+      <h1 style="font-size: 80px; margin-bottom: 50px">
+        Welcome back {{ current_user.first_name }}!
+      </h1>
+      <h1 style="font-size: 32px; line-height: 1.2;">The time is <span id="current-time"> </span><br>
+       and the date is <span id="current-date"> </span><br>
+      Seize the moment!</h1>
     </div>
-    <div class="p-5 mb-4 mt-5 bg-body-tertiary rounded-3" style="max-height: calc(95vh - 68px); overflow-y: auto;">
-      <div class="container-fluid py-5 text-center">
-        <h1>All Tasks</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>User ID</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for task in tasks %}
-              {% if task.user_id == current_user.id %}
-                <tr>
-                  <td>{{ task.id }}</td>
-                  <td>{{ task.name }}</td>
-                  <td>{{ task.desc }}</td>
-                  <td>{{ task.start_date }}</td>
-                  <td>{{ task.end_date }}</td>
-                  <td>{{ task.user_id }}</td>
-                  <td>
-                    <form method="post" action="{{ url_for('html_routes.delete_task', task_id=task.id) }}">
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal{{ task.id }}">
-                        Edit
-                      </button>
-                    </div>
+    <div id="left-btm">
+      <div
+        class="task-list"
+        style="display: flex; flex-direction: row; flex-wrap: wrap;"
+      >
+        {# This is where the tasks variable that is passed from the Flask route
+        is used #} {# You can iterate over it like a normal Python list, and
+        access each object's properties as usual #} {% for task in tasks %} {%
+        if task.user_id == current_user.id %}
+        <a href="{{ url_for('html_routes.tasks') }}" style="text-decoration: none; color: inherit; margin-right: 30px; margin-bottom: 20px;">
+          <div
+          class="task shadow"
+          style="
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            width: 360px;
+            max-height: 500px;
+            padding: 30px;
+            font-size: 18px;
+          "
+        >
+          <div class="task-info" style="font-size: 18px">
+            <p><strong>Task ID:</strong> {{ task.id }}</p>
+            <p><strong>Name:</strong> {{ task.name }}</p>
+            <p><strong>Description:</strong> {{ task.desc }}</p>
+            <p><strong>Start Date:</strong> {{ task.start_date }}</p>
+            <p><strong>End Date:</strong> {{ task.end_date }}</p>
+          </div>
+        </div>
+        </a>
 
-                    <form method="post" action="{{ url_for('html_routes.edit_task', task_id=task.id) }}">
-                      <div class="modal fade" id="exampleModal{{ task.id }}" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="exampleModalLabel">Edit a Task</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="mb-3">
-                                <label for="title" class="form-label">Task Title</label>
-                                <input type="text" class="form-control" id="title"
-                                  placeholder="{{ 'Title' if not task.name else task.name }}"
-                                  name="title" value="{{ task.name }}">
-                              </div>
-                              <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" rows="3"
-                                  placeholder="{{ 'Description' if not task.desc else task.desc }}"
-                                  name="description">{{ task.desc }}</textarea>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
-                              <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </td>
-                </tr>
-              {% endif %}
-            {% endfor %}
-          </tbody>
-        </table>
-        <a class="nav-link" href="{{ url_for('html_routes.create_tasks') }}">Create</a>
+        {% endif %} {% endfor %}
       </div>
     </div>
+  </div>
+  <div
+    id="right"
+    class="text-center shadow"
+    style="
+      width: 400px;
+      height: fit-content;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+    "
+  >
+    <h1 style="margin-bottom: 60px; color: rgb(98, 88, 124)">Upcoming Task</h1>
+    <h2 style="margin-bottom: 50px; font-size: 40px;">Task Name</h2>
+    <p style="font-size: 24px; margin-bottom: 50px;">Task Content</p>
+    <h3 style="margin-bottom: 50px">Due Date</h2>
+    <a class="shadow" href="{{ url_for('html_routes.tasks') }}" 
+    style="text-decoration: none; color: white; font-size: 20px; border: none; background-color: rgb(98, 88, 124); padding: 20px; display: block;">Check More Details</a>
   </div>
 </div>
 
