@@ -15,11 +15,14 @@ Routes allow you to define Flask pages in a logical and organized way
 def index():
     """Renders the home page under /templates/index.html"""
     tasks = Task.query.all()
+    if not current_user.is_authenticated:
+        return render_template("index.html", tasks=[])
     current_user_id = current_user.id
     now = datetime.now()
     user_tasks = [task for task in tasks if task.user_id == current_user_id and task.end_date]
     upcoming_task = min(user_tasks, key=lambda task: abs(task.end_date - now), default=None)
     return render_template("index.html", tasks=tasks, upcoming_task=upcoming_task)
+
 
 @html_routes_bp.route("/login", methods=["GET", "POST"])
 def login():
